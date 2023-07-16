@@ -106,19 +106,17 @@ export const createUser = async (req, res) => {
   const user = new User();
   console.log(req.body.email);
   user.email = String(req.body.email);
-  user.userName = String(req.body.userName);
   user.firstName = String(req.body.firstName);
-  user.activationEndDate = new Date(String(req.body.activationEndDate));
-  user.activationStartDate = new Date(String(req.body.activationStartDate));
   user.contactNumber = String(req.body.contactNumber);
   user.lastName = String(req.body.lastName);
   //user.password = bcrypt.hashSync(password, saltRounds);
   user.password = String(req.body.password);
 
-  if (String(req.body.userType).match("teacher"))
-    user.userType = UserType.TEACHER;
-  else if (req.body.userType.match("user")) user.userType = UserType.USER;
-  else if (req.body.userType.match("admin")) user.userType = UserType.ADMIN;
+  // if (String(req.body.userType).match("teacher"))
+  //   user.userType = UserType.TEACHER;
+  // else if (req.body.userType.match("user")) user.userType = UserType.USER;
+  // else if (req.body.userType.match("admin")) 
+  user.userType = UserType.ADMIN;
   try {
     await user.save();
     res.json(true);
@@ -139,13 +137,10 @@ export const updateUser = async (req, res) => {
       .set({
         email: String(req.body.email),
         firstName: String(req.body.firstName),
-        activationEndDate: new Date(req.body.activationEndDate),
-        activationStartDate: new Date(String(req.body.activationStartDate)),
         contactNumber: String(req.body.contactNumber),
         lastName: String(req.body.lastName),
         password: String(req.body.password),
         userType: UserType.ADMIN,
-        userName: String(req.body.userName),
       })
       .where("id = :idIn", { idIn: Number(req.body.id) })
       .execute();
@@ -192,7 +187,7 @@ export const getUserStudentAll = async (req, res) => {
       .where("userType = :userTypeIn", { userTypeIn: UserType.USER })
       .getMany();
       */
-    const user = await User.findBy({ userType: UserType.USER });
+    const user = await User.findBy({ userType: UserType.ADMIN });
     res.json(user);
   } catch (error) {
     res.json(false);

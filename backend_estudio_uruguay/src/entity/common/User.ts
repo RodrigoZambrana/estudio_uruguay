@@ -35,6 +35,6 @@ export class User extends BaseEntity {
     type: 'enum',
     enum: UserType,
   })
-  format: UserType
+  userType: UserType
 
 }

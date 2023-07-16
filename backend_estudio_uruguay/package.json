@@ -27,7 +27,7 @@
     "start": "pm2 start",
     "typeorm": "typeorm-ts-node-commonjs",
     "dev": "ts-node-dev --respawn src/index.ts",
-    "build": "tsc -p"
+    "build": "rimraf ./build && tsc"
 
   }
 }
