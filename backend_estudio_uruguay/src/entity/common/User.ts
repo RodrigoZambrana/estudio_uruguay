@@ -3,13 +3,12 @@ import {
   Column,
   PrimaryGeneratedColumn,
   BaseEntity,
-  CreateDateColumn,
 } from "typeorm";
 
 export enum UserType {
-  USER = "user",
-  TEACHER = "teacher",
   ADMIN = "admin",
+  PRODUCTOR = "productor",
+  CORTADOR = "cortador",
 }
 
 @Entity()
@@ -27,22 +26,15 @@ export class User extends BaseEntity {
   email: string;
 
   @Column()
-  userName: string;
-
-  @Column()
   password: string;
 
   @Column()
   contactNumber: string;
 
-  @Column()
-  userType: string;
+  @Column({
+    type: 'enum',
+    enum: UserType,
+  })
+  format: UserType
 
-  @Column()
-  activationStartDate: Date;
-
-  @Column()
-  activationEndDate: Date;
-
-  //lenguajes asociados para teachers
 }
