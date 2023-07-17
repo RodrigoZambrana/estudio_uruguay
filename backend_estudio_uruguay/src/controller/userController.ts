@@ -1,6 +1,6 @@
-import { AppDataSource } from "../../data-source";
-import { User, UserType } from "../../entity/common/User";
-import { signInToken } from "../../config/auth";
+import { AppDataSource } from "../data-source";
+import { User, UserType } from "../entity/common/User";
+import { signInToken } from "../config/auth";
 
 const adminRepository = AppDataSource.getRepository(User);
 
@@ -84,23 +84,6 @@ export const getUserById = async (req, res) => {
   }
 };
 
-export const existUser = async (req, res) => {
-  try {
-    const { email } = req.body;
-
-    const user = await adminRepository
-      .createQueryBuilder("user")
-      .where("user.email = :email", { email: email })
-      .getOne();
-
-    if (user != undefined) res.json(true);
-    else res.json(false);
-  } catch (error) {
-    res.status(500).json({
-      message: error,
-    });
-  }
-};
 
 export const createUser = async (req, res) => {
   const user = new User();
@@ -179,29 +162,13 @@ export const getUserAll = async (req, res) => {
   }
 };
 
-export const getUserStudentAll = async (req, res) => {
-  try {
-    /*
-    await adminRepository
-      .createQueryBuilder("user")
-      .where("userType = :userTypeIn", { userTypeIn: UserType.USER })
-      .getMany();
-      */
-    const user = await User.findBy({ userType: UserType.ADMIN });
-    res.json(user);
-  } catch (error) {
-    res.json(false);
-  }
-};
 
 module.exports = {
   getUserById,
   createUser,
   updateUser,
   deleteUser,
-  existUser,
   getUserAll,
   loginAdmin,
   loginUser,
-  getUserStudentAll,
 };
